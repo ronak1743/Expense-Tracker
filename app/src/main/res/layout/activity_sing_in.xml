@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#03A9F4"
+    tools:context=".SingInActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_250sdp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_80sdp"
+            android:fontFamily="@font/concert_one"
+            android:text="Sing Up"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_50sdp"></TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:textSize="@dimen/_20sdp"
+            android:fontFamily="@font/concert_one"
+            android:textColor="@color/white"
+            android:text="Hello! Let's join with us"></TextView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="@drawable/createaccountbg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/_10sdp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingRight="@dimen/_10sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:background="@drawable/backforsinget"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="@dimen/_31sdp"
+                android:src="@drawable/usernamesingin"
+                android:layout_height="@dimen/_31sdp"></ImageView>
+        <EditText
+            android:id="@+id/username_singin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:hint="User Name"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:padding="@dimen/_7sdp"
+            ></EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:background="@drawable/backforsinget"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="@dimen/_31sdp"
+                android:src="@drawable/emailsingin"
+                android:layout_height="@dimen/_31sdp"></ImageView>
+        <EditText
+            android:id="@+id/email_singin"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:hint="email"
+            android:inputType="textEmailAddress"
+            android:padding="@dimen/_7sdp"
+            ></EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/backforsinget"
+            android:padding="5dp"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="@dimen/_31sdp"
+                android:src="@drawable/pass"
+                android:layout_height="@dimen/_31sdp"></ImageView>
+        <EditText
+
+            android:id="@+id/password_singin"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:hint="passsword"
+            android:inputType="textPassword"
+            android:padding="@dimen/_7sdp"
+            ></EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="right"
+            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/haveAccount_singin"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="#03A9F4"
+            android:text="Already have an account"></TextView>
+        </LinearLayout>
+        <Button
+            android:id="@+id/subit_singin"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="50dp"
+            android:backgroundTint="#03A9F4"
+            android:text="Create Account"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textColorLink="@color/white"
+            android:typeface="normal"></Button>
+
+</LinearLayout>
+
+</LinearLayout>
