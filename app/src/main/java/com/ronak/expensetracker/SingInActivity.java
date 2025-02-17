@@ -43,50 +43,14 @@ public class SingInActivity extends AppCompatActivity {
             return insets;
         });
 
-        auth=FirebaseAuth.getInstance();
 
-        username=findViewById(R.id.username_singin);
-        email=findViewById(R.id.email_singin);
-        password=findViewById(R.id.password_singin);
-        haveaccount=findViewById(R.id.haveAccount_singin);
-        create=findViewById(R.id.subit_singin);
-        database=FirebaseDatabase.getInstance();
+
+        initialize();
+
             create.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String e = email.getText().toString();
-                    String p = password.getText().toString();
-                    String un=username.getText().toString();
-                    auth.createUserWithEmailAndPassword(e, p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-
-                                UserModel u=new UserModel(un,e,p);
-                                String UID=task.getResult().getUser().getUid();
-                                database.getReference().child("User").child(UID).setValue(u);
-
-                                auth.signInWithEmailAndPassword(e,p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if(task.isSuccessful()) {
-
-                                            Intent i=new Intent(SingInActivity.this,MainActivity.class);
-                                            startActivity(i);
-                                            finish();
-                                        }
-                                        else{
-                                            Toast.makeText(SingInActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-
-                                        }
-                                    }
-                                });
-                            }
-                            else{
-                                Toast.makeText(SingInActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+                    createAndSinginUser();
                 }
             });
 
@@ -100,4 +64,54 @@ public class SingInActivity extends AppCompatActivity {
                 }
             });
     }
+    public  void initialize(){
+        auth=FirebaseAuth.getInstance();
+        username=findViewById(R.id.username_singin);
+        email=findViewById(R.id.email_singin);
+        password=findViewById(R.id.password_singin);
+        haveaccount=findViewById(R.id.haveAccount_singin);
+        create=findViewById(R.id.subit_singin);
+        database=FirebaseDatabase.getInstance();
+    }
+
+    public  void createAndSinginUser(){
+
+        String e = email.getText().toString();
+        String p = password.getText().toString();
+        String un=username.getText().toString();
+
+
+        auth.createUserWithEmailAndPassword(e, p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+
+                    UserModel u=new UserModel(un,e,p);
+                    String UID=task.getResult().getUser().getUid();
+
+                    database.getReference().child("User").child(UID).setValue(u);
+
+                    auth.signInWithEmailAndPassword(e,p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()) {
+
+                                Intent i=new Intent(SingInActivity.this,MainActivity.class);
+                                startActivity(i);
+                                finish();
+                            }
+                            else{
+                                Toast.makeText(SingInActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    });
+                }
+                else{
+                    Toast.makeText(SingInActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
 }

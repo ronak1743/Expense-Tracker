@@ -26,6 +26,7 @@ import com.ronak.expensetracker.Adapters.ListAdapter;
 import com.ronak.expensetracker.Model.UserModel;
 import com.ronak.expensetracker.Model.listmodel;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,14 +34,15 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     Button singout;
 
-    ArrayList<listmodel>list=new ArrayList<>();
+    ArrayList<listmodel> list = new ArrayList<>();
     ListAdapter listAdapter;
-    Button cashinbtn,cashoutbtn;
+    Button cashinbtn, cashoutbtn;
     FirebaseDatabase database;
     RecyclerView rv;
     UserModel u1;
     String UID1;
-    TextView cashintxt,cashouttxt;
+    TextView cashintxt, cashouttxt;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,51 +54,26 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        auth=FirebaseAuth.getInstance();
+
+//        initilizaation
+        initialize();
+
 //        singout=findViewById(R.id.singout_main);
-        if(auth.getCurrentUser()==null) {
-            Intent i = new Intent(MainActivity.this, SingInActivity.class);
-            startActivity(i);
-            finish();
-        }
-        FirebaseUser cur=auth.getCurrentUser();
 
-        rv=findViewById(R.id.recycle_main);
-        UID1=cur.getUid();
-        listAdapter=new ListAdapter(this,list);
-        FirebaseDatabase.getInstance().getReference().child("DATA").child(UID1).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                list.clear();
-                for(DataSnapshot s:snapshot.getChildren()){
-
-                    listmodel l=s.getValue(listmodel.class);
-                    list.add(l);
-                }
-                listAdapter.notifyDataSetChanged();
-            }
+        checkuser();
+        FirebaseUser cur = auth.getCurrentUser();
+        UID1 = cur.getUid();
 
 
+        listAdapter = new ListAdapter(this, list);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+        getData();
 
-            }
-        });
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(listAdapter);
-       FirebaseDatabase.getInstance().getReference().child("User").child(UID1)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                u1=snapshot.getValue(UserModel.class);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+//        addUserToDB();
 
 //        singout.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -109,33 +86,100 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
 
-
-        cashinbtn=findViewById(R.id.cash_in_btn);
-        cashoutbtn=findViewById(R.id.cash_out_btn);
-
-        cashintxt=findViewById(R.id.total_in_main);
-        cashouttxt=findViewById(R.id.total_out_main);
-
-        RecyclerView r=findViewById(R.id.recycle_main);
-
         cashinbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(MainActivity.this,UserToDB.class);
-                i.putExtra("type","IN");
+                Intent i = new Intent(MainActivity.this, UserToDB.class);
+                i.putExtra("type", "IN");
                 startActivity(i);
             }
         });
+
         cashoutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(MainActivity.this,UserToDB.class);
-                i.putExtra("type","OUT");
+                Intent i = new Intent(MainActivity.this, UserToDB.class);
+                i.putExtra("type", "OUT");
                 startActivity(i);
             }
         });
 
 
+    }
+
+
+    public  void initialize(){
+        auth = FirebaseAuth.getInstance();
+        cashinbtn = findViewById(R.id.cash_in_btn);
+        cashoutbtn = findViewById(R.id.cash_out_btn);
+
+        cashintxt = findViewById(R.id.total_in_main);
+        cashouttxt = findViewById(R.id.total_out_main);
+        rv = findViewById(R.id.recycle_main);
+    }
+
+
+    public  void addUserToDB(){
+
+        FirebaseDatabase.getInstance().getReference().child("User").child(UID1)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        u1 = snapshot.getValue(UserModel.class);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+    }
+
+    public void getData(){
+
+        FirebaseDatabase.getInstance().getReference().child("DATA").child(UID1)
+                .addValueEventListener(new ValueEventListener() {
+                    long a1=0;
+                    long a2=0;
+            @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list.clear();
+                for (DataSnapshot s : snapshot.getChildren()) {
+
+                    listmodel l = s.getValue(listmodel.class);
+                    list.add(l);
+                    long x=Long.parseLong(l.getAmount());
+
+                    if(l.getType().equals("IN")){
+                        a1+=x;
+                    }
+                    else{
+                        a2+=x;
+                    }
+
+                    cashintxt.setText(a1+"");
+                    cashouttxt.setText(a2+"");
+                }
+                listAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+
+    }
+
+    public  void checkuser(){
+
+        if (auth.getCurrentUser() == null) {
+            Intent i = new Intent(MainActivity.this, SingInActivity.class);
+            startActivity(i);
+            finish();
+        }
 
     }
 }

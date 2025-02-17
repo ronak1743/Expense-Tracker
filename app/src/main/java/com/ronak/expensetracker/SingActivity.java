@@ -39,28 +39,13 @@ public class SingActivity extends AppCompatActivity {
             return insets;
         });
 
-        auth=FirebaseAuth.getInstance();
-        pass=findViewById(R.id.password_sing);
-        email=findViewById(R.id.email_sing);
-        sigin=findViewById(R.id.subit_sing);
-        nothave=findViewById(R.id.nothaveAccount_sing);
+        initialize();
+
 
         sigin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String e=email.getText().toString();
-                String p=pass.getText().toString();
-
-                auth.signInWithEmailAndPassword(e,p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Intent i=new Intent(SingActivity.this,MainActivity.class);
-                            startActivity(i);
-                            finish();
-                        }
-                    }
-                });
+                singinUser();
             }
         });
 
@@ -73,5 +58,30 @@ public class SingActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public  void initialize(){
+        auth=FirebaseAuth.getInstance();
+        pass=findViewById(R.id.password_sing);
+        email=findViewById(R.id.email_sing);
+        sigin=findViewById(R.id.subit_sing);
+        nothave=findViewById(R.id.nothaveAccount_sing);
+    }
+
+    public void singinUser(){
+        String e=email.getText().toString();
+        String p=pass.getText().toString();
+
+        auth.signInWithEmailAndPassword(e,p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+
+                    Intent i=new Intent(SingActivity.this,MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+        });
     }
 }
