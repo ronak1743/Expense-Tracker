@@ -24,7 +24,6 @@
             android:orientation="horizontal">
             <TextView
                 android:text="Hellpnjfnvfvkjdbvkj"
-
                 android:id="@+id/note_desing"
                 android:gravity="left"
                 android:textSize="20dp"
@@ -70,3 +69,4 @@
 
 
 </LinearLayout>
+

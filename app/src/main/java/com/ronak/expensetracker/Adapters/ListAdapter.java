@@ -29,31 +29,31 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyView> {
     @Override
     public MyView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         @SuppressLint("ResourceType")
-        View view= LayoutInflater.from(context).inflate(R.layout.listmodel_desing,null);
+        View view= LayoutInflater.from(context).inflate(R.layout.listmodel_desing,parent,false);
         return  new MyView(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyView holder, int position) {
         listmodel l=list.get(position);
-        date.setText(l.getDate());
-        time.setText(l.getTime());
-        note.setText(l.getNotes());
+        holder.date.setText(l.getDate());
+        holder.time.setText(l.getTime());
+        holder.note.setText(l.getNotes());
         if(l.getType().equals("IN")) {
-            amount.setTextColor(ContextCompat.getColor(context, R.color.green));
+            holder.amount.setTextColor(ContextCompat.getColor(context, R.color.green));
         }else{
-            amount.setTextColor(ContextCompat.getColor(context, R.color.red));
+            holder.amount.setTextColor(ContextCompat.getColor(context, R.color.red));
         }
-        amount.setText(l.getAmount());
+        holder.amount.setText(l.getAmount());
     }
 
     @Override
     public int getItemCount() {
         return list.size();
     }
-        TextView date,time,note,amount;
-    public class MyView extends RecyclerView.ViewHolder {
 
+    public class MyView extends RecyclerView.ViewHolder {
+        TextView date,time,note,amount;
         public MyView(@NonNull View itemView) {
             super(itemView);
             date=itemView.findViewById(R.id.date_desing);
