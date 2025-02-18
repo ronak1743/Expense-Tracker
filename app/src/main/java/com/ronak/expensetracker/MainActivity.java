@@ -2,8 +2,11 @@ package com.ronak.expensetracker;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,8 +35,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
-    Button singout;
-
+    ImageView img;
     ArrayList<listmodel> list = new ArrayList<>();
     ListAdapter listAdapter;
     Button cashinbtn, cashoutbtn;
@@ -55,10 +57,9 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-//        initilizaation
+
         initialize();
 
-//        singout=findViewById(R.id.singout_main);
 
         checkuser();
         FirebaseUser cur = auth.getCurrentUser();
@@ -71,19 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(listAdapter);
-
-
-//        addUserToDB();
-
-//        singout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                auth.signOut();
-//                Intent i=new Intent(MainActivity.this,MainActivity.class);
-//                startActivity(i);
-//                finish();
-//            }
-//        });
 
 
         cashinbtn.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +92,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createPopup(v);
+            }
+        });
+
 
     }
 
@@ -112,29 +107,12 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         cashinbtn = findViewById(R.id.cash_in_btn);
         cashoutbtn = findViewById(R.id.cash_out_btn);
-
+        img=findViewById(R.id.user_logout);
         cashintxt = findViewById(R.id.total_in_main);
         cashouttxt = findViewById(R.id.total_out_main);
         rv = findViewById(R.id.recycle_main);
     }
 
-
-    public  void addUserToDB(){
-
-        FirebaseDatabase.getInstance().getReference().child("User").child(UID1)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        u1 = snapshot.getValue(UserModel.class);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-    }
 
     public void getData(){
 
@@ -146,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
+                a1=0;
+                a2=0;
                 for (DataSnapshot s : snapshot.getChildren()) {
 
                     listmodel l = s.getValue(listmodel.class);
@@ -181,5 +161,26 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
+    }
+
+    public  void createPopup(View v){
+        PopupMenu popupMenu=new PopupMenu(MainActivity.this,v);
+        popupMenu.getMenuInflater().inflate(R.menu.popupmenu,popupMenu.getMenu());
+        popupMenu.show();
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                singout();
+                return false;
+            }
+        });
+    }
+
+    public  void singout(){
+        auth.signOut();
+        Intent i=new Intent(MainActivity.this,SingActivity.class);
+        startActivity(i);
+        finish();
     }
 }
