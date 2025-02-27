@@ -1,10 +1,13 @@
 package com.ronak.expensetracker;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -19,6 +22,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +39,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
+    Dialog d1;
     FirebaseAuth auth;
     ImageView img;
     ArrayList<listmodel> list = new ArrayList<>();
@@ -98,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
                 createPopup(v);
             }
         });
-
 
     }
 
@@ -171,7 +176,12 @@ public class MainActivity extends AppCompatActivity {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                singout();
+                if(item.getItemId()==R.id.changepass_menu) {
+                    changePassword();
+                }
+                else if(item.getItemId()==R.id.singout_menu){
+                    singout();
+                }
                 return false;
             }
         });
@@ -182,5 +192,52 @@ public class MainActivity extends AppCompatActivity {
         Intent i=new Intent(MainActivity.this,SingActivity.class);
         startActivity(i);
         finish();
+    }
+
+    public void changePassword(){
+        d1=new Dialog(MainActivity.this);
+        database=FirebaseDatabase.getInstance();
+        d1.setContentView(R.layout.change_password);
+        d1.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        EditText oldpassword=d1.findViewById(R.id.old_password_change);
+        EditText newpassword=d1.findViewById(R.id.new_password_change);
+        Button btn=d1.findViewById(R.id.changebtn_change);
+        d1.show();
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String oldpass=oldpassword.getText().toString();
+                String newpass=newpassword.getText().toString();
+                FirebaseUser cur = auth.getCurrentUser();
+                UID1 = cur.getUid();
+
+               database.getReference().child("User").child(UID1).addListenerForSingleValueEvent(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(@NonNull DataSnapshot snapshot) {
+                       if(snapshot.exists()){
+                           UserModel us=snapshot.getValue(UserModel.class);
+                           if(us!=null  && us.getPassword().equals(oldpass)){
+                               cur.updatePassword(newpass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                   @Override
+                                   public void onSuccess(Void unused) {
+                                       us.setPassword(newpass);
+                                       database.getReference().child("User").child(UID1).setValue(us);
+                                       Toast.makeText(MainActivity.this, "Password changed", Toast.LENGTH_SHORT).show();
+
+                                   }
+                               });
+                           }
+                       }
+                   }
+
+                   @Override
+                   public void onCancelled(@NonNull DatabaseError error) {
+
+                   }
+               });
+
+                d1.dismiss();
+            }
+        });
     }
 }
