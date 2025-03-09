@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
     public  void initialize(){
         auth = FirebaseAuth.getInstance();
+        database=FirebaseDatabase.getInstance();
         cashinbtn = findViewById(R.id.cash_in_btn);
         cashoutbtn = findViewById(R.id.cash_out_btn);
         img=findViewById(R.id.user_logout);
@@ -196,13 +197,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void changePassword(){
         d1=new Dialog(MainActivity.this);
-        database=FirebaseDatabase.getInstance();
         d1.setContentView(R.layout.change_password);
         d1.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         EditText oldpassword=d1.findViewById(R.id.old_password_change);
         EditText newpassword=d1.findViewById(R.id.new_password_change);
+        TextView forget=d1.findViewById(R.id.forgetPassword_changepswd);
         Button btn=d1.findViewById(R.id.changebtn_change);
         d1.show();
+        forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                forgetpass();
+            }
+        });
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,5 +246,20 @@ public class MainActivity extends AppCompatActivity {
                 d1.dismiss();
             }
         });
+    }
+
+    public void forgetpass(){
+
+        FirebaseUser cur = auth.getCurrentUser();
+        UID1 = cur.getUid();
+
+        auth.sendPasswordResetEmail(cur.getEmail()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(MainActivity.this, "Password Reset Email share on your email", Toast.LENGTH_SHORT).show();
+                singout();
+            }
+        });
+
     }
 }

@@ -19,6 +19,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.ronak.expensetracker.Model.UserModel;
 
 public class SingActivity extends AppCompatActivity {
 
@@ -26,6 +31,7 @@ public class SingActivity extends AppCompatActivity {
     EditText pass,email;
     Button sigin;
     TextView nothave;
+    FirebaseDatabase database;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -66,6 +72,7 @@ public class SingActivity extends AppCompatActivity {
         email=findViewById(R.id.email_sing);
         sigin=findViewById(R.id.subit_sing);
         nothave=findViewById(R.id.nothaveAccount_sing);
+        database=FirebaseDatabase.getInstance();
     }
 
     public void singinUser(){
@@ -73,10 +80,25 @@ public class SingActivity extends AppCompatActivity {
         String p=pass.getText().toString();
 
         auth.signInWithEmailAndPassword(e,p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    String str=auth.getCurrentUser().getUid();
 
+                    database.getReference().child("User").child(str).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            UserModel us=snapshot.getValue(UserModel.class);
+                            us.setPassword(p);
+                            database.getReference().child("User").child(str).setValue(us);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                     Intent i=new Intent(SingActivity.this,MainActivity.class);
                     startActivity(i);
                     finish();

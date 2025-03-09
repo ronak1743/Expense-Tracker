@@ -109,7 +109,7 @@
             android:layout_height="50dp"
             android:backgroundTint="#03A9F4"
             android:text="Singin"
-            android:layout_marginTop="@dimen/_70sdp"
+            android:layout_marginTop="@dimen/_40sdp"
             android:textColorLink="@color/white"
             android:typeface="normal"></Button>
 
