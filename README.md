@@ -1,2 +1,20 @@
-<h1>This is Expense-Tracker App.</h1>
-<h3>This app track your expense and also track date and time and note for that expense.This app also track that how much money in and how much out.</h3>
+# Expense Tracker App
+
+An Android application to help users log and track their expenses, including timestamps and optional notes, while providing insightful summaries of money inflows and outflows.
+
+## Features
+- **Add Expenses:** Record each expense with date, time, amount, and optional note.
+- **Transaction Summary:** View total amount spent and total money added.
+- **Simple UI:** Clean interface for quick and effortless expense entries.
+- **Storage:** Built using Android Java framework with Firebase backend .
+
+## Tech Stack
+- **Frontend:** XML layouts
+- **Backend:** Java,Firebase Realtime Database / Firebase Authentication
+- **Build:** Android Studio
+
+## Setup Instructions
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ronak1743/Expense-Tracker.git
+   cd Expense-Tracker
