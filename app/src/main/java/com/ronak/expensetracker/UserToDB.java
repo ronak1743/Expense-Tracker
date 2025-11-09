@@ -5,20 +5,26 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ronak.expensetracker.Model.listmodel;
@@ -45,14 +51,9 @@ public class UserToDB extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        database=FirebaseDatabase.getInstance();
-        btn=findViewById(R.id.submit_usertodb);
-        amount=findViewById(R.id.amount_usertodb);
-        date=findViewById(R.id.date_usertodb);
-        time=findViewById(R.id.time_usertodb);
-        note=findViewById(R.id.note_usertodb);
-        txt=findViewById(R.id.amounttxt_user_to_db);
-        auth=FirebaseAuth.getInstance();
+
+        intilize();
+
         Intent i=getIntent();
         String s=i.getStringExtra("type");
         if(s.equals("IN")){
@@ -63,17 +64,15 @@ public class UserToDB extends AppCompatActivity {
             txt.setTextColor(ContextCompat.getColor(UserToDB.this, R.color.red));
             amount.setTextColor(ContextCompat.getColor(UserToDB.this, R.color.red));
         }
+
         Date d=new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String formattedDate = dateFormat.format(d);
-
         date.setText(formattedDate.toString());
 
 
-         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
-
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
         String formattedTime = timeFormat.format(d);
-
         time.setText(formattedTime);
 
         date.setOnClickListener(new View.OnClickListener() {
@@ -136,9 +135,41 @@ public class UserToDB extends AppCompatActivity {
                 listmodel l=new listmodel(d,t,n,a,s);
                 String UID=auth.getCurrentUser().getUid();
                 String key=database.getReference().child("DATA").child(UID).push().getKey();
-                database.getReference().child("DATA").child(UID).child(key).setValue(l);
+                database.getReference().child("DATA").child(UID).child(key).setValue(l).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(UserToDB.this,"your data is added suceddfully",Toast.LENGTH_LONG);
+
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(UserToDB.this,"Something went wrong",Toast.LENGTH_LONG);
+                    }
+                });
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(UserToDB.this, MainActivity.class));
+                    }
+                },1000);
             }
+
+
         });
 
+    }
+
+    protected void intilize(){
+        database=FirebaseDatabase.getInstance();
+        btn=findViewById(R.id.submit_usertodb);
+        amount=findViewById(R.id.amount_usertodb);
+        date=findViewById(R.id.date_usertodb);
+        time=findViewById(R.id.time_usertodb);
+        note=findViewById(R.id.note_usertodb);
+        txt=findViewById(R.id.amounttxt_user_to_db);
+        auth=FirebaseAuth.getInstance();
     }
 }
