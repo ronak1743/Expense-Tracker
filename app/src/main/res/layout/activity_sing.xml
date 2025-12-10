@@ -1,118 +1,122 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:orientation="vertical"
-    android:background="#03A9F4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient"
+    android:padding="16dp"
     tools:context=".SingActivity">
 
-
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_height="@dimen/_250sdp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_60sdp"
-            android:fontFamily="@font/concert_one"
-            android:text="Wellcome Back"
-            android:textColor="@color/white"
-            android:layout_marginLeft="@dimen/_20sdp"
-            android:textSize="@dimen/_50sdp"></TextView>
+        android:layout_height="250dp"
+        android:gravity="bottom">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:textSize="@dimen/_20sdp"
+            android:text="Welcome Back"
             android:fontFamily="@font/concert_one"
-            android:textColor="@color/white"
-            android:text="Hey! Good to See you again"></TextView>
+            android:textColor="@android:color/white"
+            android:textSize="36sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hey! Good to see you again"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"/>
     </LinearLayout>
+
+    <!-- Card Container -->
     <LinearLayout
-        android:background="@drawable/createaccountbg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/_10sdp"
-        android:gravity="center_horizontal"
+        android:background="@drawable/card_background"
         android:orientation="vertical"
-        android:paddingRight="@dimen/_10sdp">
+        android:padding="24dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal">
 
+        <!-- Email Input -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:padding="5dp"
-            android:background="@drawable/backforsinget"
-            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_background"
+            android:orientation="horizontal"
+            android:padding="12dp"
             android:gravity="center_vertical"
-            android:layout_height="wrap_content">
+            android:layout_marginTop="16dp">
+
             <ImageView
-                android:layout_width="@dimen/_31sdp"
-                android:src="@drawable/emailsingin"
-                android:layout_height="@dimen/_31sdp"></ImageView>
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/emailsingin"/>
+
             <EditText
                 android:id="@+id/email_sing"
-                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:hint="email"
+                android:layout_marginStart="12dp"
+                android:hint="Email"
+                android:background="@android:color/transparent"
                 android:inputType="textEmailAddress"
-                android:padding="@dimen/_7sdp"
-                ></EditText>
+                android:textColor="#212121"
+                android:textColorHint="#757575"/>
         </LinearLayout>
+
+        <!-- Password Input -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:background="@drawable/backforsinget"
-            android:padding="5dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_background"
+            android:orientation="horizontal"
+            android:padding="12dp"
             android:gravity="center_vertical"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="@dimen/_31sdp"
-                android:src="@drawable/pass"
-                android:layout_height="@dimen/_31sdp"></ImageView>
-            <EditText
+            android:layout_marginTop="16dp">
 
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/pass"/>
+
+            <EditText
                 android:id="@+id/password_sing"
-                android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:hint="passsword"
+                android:layout_marginStart="12dp"
+                android:hint="Password"
+                android:background="@android:color/transparent"
                 android:inputType="textPassword"
-                android:padding="@dimen/_7sdp"
-                ></EditText>
+                android:textColor="#212121"
+                android:textColorHint="#757575"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:gravity="right"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:layout_height="wrap_content">
+        <!-- Not have account -->
         <TextView
             android:id="@+id/nothaveAccount_sing"
-            android:textSize="15dp"
-            android:textColor="#03A9F4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="not have account"></TextView>
-        </LinearLayout>
+            android:text="Don't have an account?"
+            android:textColor="#FF9800"
+            android:layout_gravity="end"
+            android:layout_marginTop="12dp"/>
+
+        <!-- SignIn Button -->
         <Button
             android:id="@+id/subit_sing"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:backgroundTint="#03A9F4"
-            android:text="Singin"
-            android:layout_marginTop="@dimen/_40sdp"
-            android:textColorLink="@color/white"
-            android:typeface="normal"></Button>
-
+            android:text="Sign In"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#FF9800"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/concert_one"/>
     </LinearLayout>
-
 </LinearLayout>

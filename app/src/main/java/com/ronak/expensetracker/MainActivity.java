@@ -111,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
     public  void initialize(){
         auth = FirebaseAuth.getInstance();
         database=FirebaseDatabase.getInstance();
-        cashinbtn = findViewById(R.id.cash_in_btn);
-        cashoutbtn = findViewById(R.id.cash_out_btn);
+        cashinbtn = findViewById(R.id.btnCashIn);
+        cashoutbtn = findViewById(R.id.btnCashOut);
         img=findViewById(R.id.user_logout);
         cashintxt = findViewById(R.id.total_in_main);
         cashouttxt = findViewById(R.id.total_out_main);

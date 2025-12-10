@@ -57,12 +57,12 @@ public class UserToDB extends AppCompatActivity {
         Intent i=getIntent();
         String s=i.getStringExtra("type");
         if(s.equals("IN")){
-            txt.setTextColor(ContextCompat.getColor(UserToDB.this, R.color.green));
-            amount.setTextColor(ContextCompat.getColor(UserToDB.this, R.color.green));
+            txt.setTextColor(ContextCompat.getColor(UserToDB.this, R.color.success_green));
+            amount.setTextColor(ContextCompat.getColor(UserToDB.this, R.color.success_green));
         }
         else{
-            txt.setTextColor(ContextCompat.getColor(UserToDB.this, R.color.red));
-            amount.setTextColor(ContextCompat.getColor(UserToDB.this, R.color.red));
+            txt.setTextColor(ContextCompat.getColor(UserToDB.this, R.color.error_red));
+            amount.setTextColor(ContextCompat.getColor(UserToDB.this, R.color.error_red));
         }
 
         Date d=new Date();

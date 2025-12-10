@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="green">#00D800</color>
-    <color name="red">#D5021D</color>
+    <!-- Primary Gradient Colors -->
+    <color name="primary_start">#4CAF50</color>
+    <color name="primary_end">#2E7D32</color>
+
+    <!-- Card and Input Backgrounds -->
+    <color name="card_background">#FFFFFF</color>
+    <color name="input_background">#F5F5F5</color>
+
+    <!-- Buttons & Accent -->
+    <color name="accent_orange">#FF9800</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_white">#FFFFFF</color>
+
+    <!-- Optional: hint/error colors -->
+    <color name="error_red">#F44336</color>
+    <color name="success_green">#4CAF50</color>
+    <color name="primary_text">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
 </resources>

@@ -40,9 +40,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyView> {
         holder.time.setText(l.getTime());
         holder.note.setText(l.getNotes());
         if(l.getType().equals("IN")) {
-            holder.amount.setTextColor(ContextCompat.getColor(context, R.color.green));
+            holder.amount.setTextColor(ContextCompat.getColor(context, R.color.success_green));
         }else{
-            holder.amount.setTextColor(ContextCompat.getColor(context, R.color.red));
+            holder.amount.setTextColor(ContextCompat.getColor(context, R.color.error_red));
         }
         holder.amount.setText(l.getAmount());
     }
